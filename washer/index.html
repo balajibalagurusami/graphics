@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Table Values</title>
+</head>
+<body>
+
+<table id="editableTable" border="1">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td contenteditable="true">Row 1, Column 1</td>
+            <td contenteditable="true">Row 1, Column 2</td>
+            <td contenteditable="true">Row 1, Column 3</td>
+            <td contenteditable="true">Row 1, Column 4</td>
+        </tr>
+        <tr>
+            <td contenteditable="true">Row 2, Column 1</td>
+            <td contenteditable="true">Row 2, Column 2</td>
+            <td contenteditable="true">Row 2, Column 3</td>
+            <td contenteditable="true">Row 2, Column 4</td>
+        </tr>
+        <tr>
+            <td contenteditable="true">Row 3, Column 1</td>
+            <td contenteditable="true">Row 3, Column 2</td>
+            <td contenteditable="true">Row 3, Column 3</td>
+            <td contenteditable="true">Row 3, Column 4</td>
+        </tr>
+        <tr>
+            <td contenteditable="true">Row 4, Column 1</td>
+            <td contenteditable="true">Row 4, Column 2</td>
+            <td contenteditable="true">Row 4, Column 3</td>
+            <td contenteditable="true">Row 4, Column 4</td>
+        </tr>
+        <tr>
+            <td contenteditable="true">Row 5, Column 1</td>
+            <td contenteditable="true">Row 5, Column 2</td>
+            <td contenteditable="true">Row 5, Column 3</td>
+            <td contenteditable="true">Row 5, Column 4</td>
+        </tr>
+        <tr>
+            <td contenteditable="true">Row 6, Column 1</td>
+            <td contenteditable="true">Row 6, Column 2</td>
+            <td contenteditable="true">Row 6, Column 3</td>
+            <td contenteditable="true">Row 6, Column 4</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var table = document.getElementById('editableTable');
+
+        table.addEventListener('input', function (e) {
+            // Save changes to localStorage (temporary storage)
+            saveTableData();
+        });
+
+        // Load saved data from localStorage
+        loadTableData();
+    });
+
+    function saveTableData() {
+        var table = document.getElementById('editableTable');
+        var tableData = [];
+
+        // Loop through rows and cells to get the content
+        for (var i = 0; i < table.rows.length; i++) {
+            var rowData = [];
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                rowData.push(table.rows[i].cells[j].innerText);
+            }
+            tableData.push(rowData);
+        }
+
+        // Save the data to localStorage
+        localStorage.setItem('tableData', JSON.stringify(tableData));
+    }
+
+    function loadTableData() {
+        var table = document.getElementById('editableTable');
+        var tableData = localStorage.getItem('tableData');
+
+        if (tableData) {
+            tableData = JSON.parse(tableData);
+
+            // Loop through rows and cells to set the content
+            for (var i = 0; i < tableData.length; i++) {
+                for (var j = 0; j < tableData[i].length; j++) {
+                    table.rows[i].cells[j].innerText = tableData[i][j];
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
